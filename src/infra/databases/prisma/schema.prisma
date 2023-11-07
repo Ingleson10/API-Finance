@@ -1,0 +1,35 @@
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../../../../node_modules/@prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transactions {
+  id         String   @id
+  title      String
+  type       String
+  value      Float
+  category   String
+  created_at DateTime
+  updated_at DateTime
+  user_id    String?
+  users      Users?   @relation(fields: [user_id], references: [id])
+
+  @@map("transactions")
+}
+
+model Users {
+  id           String         @id
+  name         String
+  email        String         @unique
+  password     String
+  created_at   DateTime
+  updated_at   DateTime
+  transactions Transactions[]
+
+  @@map("users")
+}

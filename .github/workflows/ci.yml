@@ -1,0 +1,40 @@
+name: CI
+
+env:
+  NODE_VERSION: 16.0.0
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-build:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Git repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install modules
+        run: npm install
+
+      - name: Run test with coverage
+        run: npm run test:coverage
+
+      - name: Deploy application
+        if: ${{ github.ref == 'refs/heads/main' }}
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: 'intw-finance-api'
+          heroku_email: 'cassiointw1993@gmail.com'
