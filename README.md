@@ -105,4 +105,4 @@ $ npm run coverage
 - /graphql
 - /file
 
-<h4 align="center">Made with 💙 by Cassio Oliveira</h4>
+<h4 align="center">Made with 💙 by Erik Ingleson</h4>
